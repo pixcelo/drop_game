@@ -17,10 +17,19 @@ window.onload = function() {
 
   document.getElementById('view').innerHTML = html.join('');
   let cells = document.getElementsByTagName('td');
-  let top = 0;
+  let top = 2;
   let top0 = top; // 元の場所の赤色を消すために用意
-  let left = 0;
+  let left = Math.floor(width / 2);
   let left0 = left;
+  // 90度毎の回転の角度（起点マスからの相対位置）の配列
+  let angles = [
+      [-1, 1, 2],
+      [-width, width, width + width],
+      [-2, -1, 1],
+      [-width - width, -width, width],
+  ];
+  let angle = 0;
+  let parts0 = [];
   let keys = {};
   document.onkeydown = function(e) {
     switch((e || event).keyCode) {
@@ -29,6 +38,9 @@ window.onload = function() {
         break;
       case 39: // 右矢印のキー番号
         keys.right = true;
+        break;
+      case 32: // 回転させる
+        keys.rotate = true;
         break;
     }
   }
@@ -44,20 +56,21 @@ window.onload = function() {
     if (keys.right && left + 4 < width) {
       left++;
     }
+    if (keys.rotate) {
+      angle++;
+    }
     keys = {}; // 入力ごとに処理を消さないと移動し続けてしまう
+    for (let i = -1; i < parts0.length; i++) {
+          let offset = parts0[i] || 0;
+          cells[top0 * width + left0 + offset].style.backgroundColor = '';
+    }
+    parts0 = angles[angle % angles.length] // 色を消す為の処理
+    for (let i = -1; i < parts0.length; i++) {
+          let offset = parts0[i] || 0;
+          cells[top * width + left + offset].style.backgroundColor = 'red';
+    }
 
-    // 色を消す処理
-    cells[top0 * width + left0 + 0].style.backgroundColor = '';
-    cells[top0 * width + left0 + 1].style.backgroundColor = '';
-    cells[top0 * width + left0 + 2].style.backgroundColor = '';
-    cells[top0 * width + left0 + 3].style.backgroundColor = '';
-    // 色を塗る処理
-    cells[top * width + left + 0].style.backgroundColor = 'red';
-    cells[top * width + left + 1].style.backgroundColor = 'red';
-    cells[top * width + left + 2].style.backgroundColor = 'red';
-    cells[top * width + left + 3].style.backgroundColor = 'red';
     top0 = top;
-
     if (tick % speed == 0) {
       top++;
     }
