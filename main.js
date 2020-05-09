@@ -27,8 +27,8 @@ window.onload = function() {
   let top0 = top; // 元の場所の赤色を消すために用意
   let left = Math.floor(width / 2);
   let left0 = left;
-  // 90度毎の回転の角度（起点マスからの相対位置）の配列
 
+  // 90度毎の回転の角度（起点マスからの相対位置）の配列
   let w = width;
   let blocks = [
     {color: 'cyan', angles:[[-1,1,2],[-w,w,w+w],[-2,-1,1],[-w-w,-w,w]]},
@@ -41,10 +41,10 @@ window.onload = function() {
   ];
 
   let block = blocks[Math.floor(Math.random() * blocks.length)];
-
   let angle = 0;
   let angle0 = angle; // 回転を元に戻す為の変数
   let parts0 = [];
+  let score = 0;
   let keys = {};
 
   document.onkeydown = function(e) {
@@ -107,22 +107,61 @@ window.onload = function() {
                 let offset = parts0[j] || 0;
                 fills[top0 * width + left0 + offset] = block.color;
               }
+
+              // ブロックを消す処理
+              let cleans = 0;
+              // 横一列が全部埋まっているかを調べる
+              for (let y = height -2 ; y >= 0; y--) {
+                let filled = true;
+                // 横列のマスを左から順番に見る
+                for (let x = 1; x < width - 1; x++) {
+                  // 色が設定されていない場合に処理
+                  if (!fills[y * width + x]) {
+                    filled = false;
+                    break;
+                  }
+                }
+                if (filled) {
+                  // y2が今の行、y2 -1 が一つ上の行
+                  for (let y2 = y; y2 >= 0; y2--) {
+                    for (var x = 1; x < width - 1; x++) {
+                      fills[y2 * width + x] = fills[(y2 - 1) * width + x]; 
+                    }
+                  }
+                  y++;
+                  cleans++;
+                }
+              }
+
+              // 一行消した後に得点の追加と下にずれたブロックの再表示
+              if (cleans > 0) {
+                score += Math.pow(10, cleans) * 10;
+                for (let y = height - 2; y >= 0; y--) {
+                    for(let x = 1; x < width - 1; x++) {
+                      let color = fills[y * width + x] || '';
+                      cells[y * width + x].style.backgroundColor = color;
+                    }
+                }
+              }
               block = blocks[Math.floor(Math.random() * blocks.length)];
               left0 = left = Math.floor(width / 2);
               top0 = top = 2;
               angle0 = angle = 0;
               parts0 = parts = block.angles[angle % block.angles.length];
 
-            } else {
-              // 一つ前の状態を代入して戻す
-              left = left0;
-              top = top0;
-              angle = angle0;
-              parts = parts0;
-            }
-
-            break;
+          } else {
+            // 一つ前の状態を代入して戻す
+            left = left0;
+            top = top0;
+            angle = angle0;
+            parts = parts0;
           }
+          break;
+      }
+    }
+
+    if(top != top0) {
+      score++;
     }
 
     // 色を消す処理
@@ -139,7 +178,7 @@ window.onload = function() {
           cells[top * width + left + offset].style.backgroundColor = block.color;
     }
 
-    let info = tick + ' (' + left + ', ' + top + ')';
+    let info = tick + ' (' + left + ', ' + top + ') score: ' + score;
     document.getElementById('info').innerHTML = info;
     setTimeout(move, 1000 / speed) // 1秒間にspeed回動かせる
 
