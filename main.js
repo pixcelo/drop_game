@@ -195,7 +195,7 @@ window.onload = function() {
 
     let info = tick + ' (' + left + ', ' + top + ') score: ' + score;
     document.getElementById('info').innerHTML = info;
-    setTimeout(move, 250 / speed) // 1秒間にspeed回動かせる
+    setTimeout(move, 1000 / speed) // 1秒間にspeed回動かせる
 
   }
   move();
