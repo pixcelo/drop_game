@@ -45,6 +45,7 @@ window.onload = function() {
   let angle0 = angle; // 回転を元に戻す為の変数
   let parts0 = [];
   let score = 0;
+  let score0 = score;
   let keys = {};
 
   document.onkeydown = function(e) {
@@ -108,6 +109,16 @@ window.onload = function() {
                 fills[top0 * width + left0 + offset] = block.color;
               }
 
+              // ブロックが積み重なって得点が変化しなくなったらゲームオーバー
+              if(score0 == score) {
+                for (let i in fills) {
+                  if (fills[i]) {
+                    cells[i].style.backgroundColor = 'black';
+                  }
+                }
+                return;
+              }
+
               // ブロックを消す処理
               let cleans = 0;
               // 横一列が全部埋まっているかを調べる
@@ -148,7 +159,7 @@ window.onload = function() {
               top0 = top = 2;
               angle0 = angle = 0;
               parts0 = parts = block.angles[angle % block.angles.length];
-
+              score0 = score;
           } else {
             // 一つ前の状態を代入して戻す
             left = left0;
