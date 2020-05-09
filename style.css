@@ -1,3 +1,7 @@
+body, table tr {
+  text-align: center;
+}
+
 table {
   border-collapse: collapse;
 }
@@ -7,7 +11,13 @@ table td {
   border: 1px solid black;
 }
 button {
+  display: inline-block;
   width: 50px;
   text-align: center;
+  font-size: 20px;
+  padding: 10px;
   margin: 10px;
+}
+#rotation {
+  width: 200px
 }

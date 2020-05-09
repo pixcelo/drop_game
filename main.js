@@ -8,7 +8,7 @@ window.onload = function() {
   let height = 21;
   let speed = 20; // 1マス分下にさがるまでの間、操作できる最大回数を指定 
   let fills = {}; // ブロックのあるマスを記録する変数
-  let html = ['<table>'];
+  let html = ['<table align="center">'];
 
   for (let y = 0; y < height; y++) {
     html.push('<tr>');
@@ -59,6 +59,10 @@ window.onload = function() {
   let right_btn = document.getElementById('right');
   right_btn.addEventListener('click', function() {
     keys.right = true;
+  });
+  let down_btn = document.getElementById('down');
+  down.addEventListener('click', function() {
+    keys.down = true;
   });
   let rotate_btn = document.getElementById('rotation');
   rotate_btn.addEventListener('click', function() {
