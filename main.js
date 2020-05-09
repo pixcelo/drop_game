@@ -1,6 +1,7 @@
 window.onload = function() {
 
-  let se_lotate = document.getElementById('sound'); 
+  let bgm = document.getElementById('bgm'); 
+  bgm.play();
 
   // 画面のサイズ
   let width = 12;
@@ -33,7 +34,7 @@ window.onload = function() {
   // 90度毎の回転の角度（起点マスからの相対位置）の配列
   let w = width;
   let blocks = [
-    {color: 'cyan', angles:[[-1,1,2],[-w,w,w+w],[-2,-1,1],[-w-w,-w,w]]},
+    {color: 'pink', angles:[[-1,1,2],[-w,w,w+w],[-2,-1,1],[-w-w,-w,w]]},
     {color: 'yellow', angles:[[-w-1,-w,-1]]},
     {color: 'green', angles:[[-w,1-w,-1],[-w,1,w+1],[1,w-1,w],[-w-1,-1,w]]},
     {color: 'red', angles:[[-w-1,-w,1],[1-w,1,w],[-1,w,w+1],[-w,-1,w-1]]},
@@ -50,6 +51,15 @@ window.onload = function() {
   let score0 = score;
   let keys = {};
 
+  // タッチ操作
+  // let ts = document.addEventListener("touchstart", touchHandler);
+  // let tm = document.addEventListener("touchmove", touchHandler);
+
+  // document.touchHandler = function(e) {
+    
+  // }
+
+  // キーボード操作
   document.onkeydown = function(e) {
     switch((e || event).keyCode) {
       case 37: // 左矢印のキー番号
@@ -89,8 +99,17 @@ window.onload = function() {
         top++;
       }
       if (keys.rotate) {  
+
+        // 生成するエレメントの調整
+        let audio = document.createElement('audio') ;
+        audio.id = 'sound_lotate'; // ID要素を設定
+        audio.src = 'sound/pa.mp3' ; // src要素を設定
+        // body要素の一番後ろに[audio]を生成する
+        document.body.appendChild(audio) ;
+        let se_lotate = document.getElementById('sound_lotate'); 
         se_lotate.currentTime = 0; // 連続再生させる
         se_lotate.play(); // 効果音を鳴らす
+
         angle++;
       }
     }
@@ -140,6 +159,16 @@ window.onload = function() {
                   // y2が今の行、y2 -1 が一つ上の行
                   for (let y2 = y; y2 >= 0; y2--) {
                     for (var x = 1; x < width - 1; x++) {
+
+                      // 生成するエレメントの調整
+                      let audio = document.createElement('audio') ;
+                      audio.id = 'sound_clean'; // ID要素を設定
+                      audio.src = 'sound/clean.mp3' ; // src要素を設定
+                      // body要素の一番後ろに[audio]を生成する
+                      document.body.appendChild(audio) ;
+                      let se_clean = document.getElementById('sound_clean'); 
+                      se_clean.play(); // 効果音を鳴らす
+
                       fills[y2 * width + x] = fills[(y2 - 1) * width + x]; 
                     }
                   }
