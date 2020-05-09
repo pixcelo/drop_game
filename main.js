@@ -1,5 +1,7 @@
 window.onload = function() {
 
+  let se_lotate = document.getElementById('sound'); 
+
   // 画面のサイズ
   let width = 12;
   let height = 21;
@@ -86,7 +88,9 @@ window.onload = function() {
       if (keys.down) {
         top++;
       }
-      if (keys.rotate) {
+      if (keys.rotate) {  
+        se_lotate.currentTime = 0; // 連続再生させる
+        se_lotate.play(); // 効果音を鳴らす
         angle++;
       }
     }
@@ -191,7 +195,7 @@ window.onload = function() {
 
     let info = tick + ' (' + left + ', ' + top + ') score: ' + score;
     document.getElementById('info').innerHTML = info;
-    setTimeout(move, 1000 / speed) // 1秒間にspeed回動かせる
+    setTimeout(move, 250 / speed) // 1秒間にspeed回動かせる
 
   }
   move();
