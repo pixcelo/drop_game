@@ -51,13 +51,20 @@ window.onload = function() {
   let score0 = score;
   let keys = {};
 
-  // タッチ操作
-  // let ts = document.addEventListener("touchstart", touchHandler);
-  // let tm = document.addEventListener("touchmove", touchHandler);
+  // ボタン操作
+  let left_btn = document.getElementById('left');
+  left_btn.addEventListener('click', function() {
+    keys.left = true;
+  });
+  let right_btn = document.getElementById('right');
+  right_btn.addEventListener('click', function() {
+    keys.right = true;
+  });
+  let rotate_btn = document.getElementById('rotation');
+  rotate_btn.addEventListener('click', function() {
+    keys.rotate = true;
+  });
 
-  // document.touchHandler = function(e) {
-    
-  // }
 
   // キーボード操作
   document.onkeydown = function(e) {

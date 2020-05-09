@@ -6,3 +6,8 @@ table td {
   height: 20px;
   border: 1px solid black;
 }
+button {
+  width: 50px;
+  text-align: center;
+  margin: 10px;
+}
